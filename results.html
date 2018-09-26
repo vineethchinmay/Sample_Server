@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Names</title>
+	
+</head>
+<body>
+	<input type="button" value="Generate names table." onclick="Onload_func()">
+	<script type="text/javascript" async>
+		function Onload_func()
+		{
+			var length = <%- length -%>;
+			var width = <%- width -%>;
+			var result = <%- results -%>; 
+			console.log(result);
+			
+			// console.log(length + " " + width);
+
+			var body = document.getElementsByTagName("body")[0];
+
+			  // creates a <table> element and a <tbody> element
+			  var tbl = document.createElement("table");
+			  var tblBody = document.createElement("tbody");
+			 
+			  // creating all cells
+			  for (var i = 0; i < length; i++) {
+			    // creates a table row
+			    var row = document.createElement("tr");
+			 
+			    
+			      var cell = document.createElement("td");
+			      var cellText = document.createTextNode(result[i].first_name);
+			      cell.appendChild(cellText);
+			      row.appendChild(cell);
+			      var cell = document.createElement("td");
+			      var cellText = document.createTextNode(result[i].last_name);
+			      cell.appendChild(cellText);
+			      row.appendChild(cell);
+			    
+			 
+			    // add the row to the end of the table body
+			    tblBody.appendChild(row);
+			  }
+			
+			  // put the <tbody> in the <table>
+			  tbl.appendChild(tblBody);
+			  // appends <table> into <body>
+			  body.appendChild(tbl);
+			  // sets the border attribute of tbl to 2;
+			  tbl.setAttribute("border", "2");
+		};
+	</script>
+</body>
+</html>
