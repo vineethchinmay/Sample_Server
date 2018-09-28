@@ -36,7 +36,15 @@ app.get('/musicians',function(req, res)
 {
 	functions.getAllRecords(mongoUri,DB_Name,Collection_Name, function(result)
 	{
-		res.render(path.join(__dirname+'/results.html'), {results : JSON.stringify(result), length : Object.keys(result).length, width : Object.keys(result[0]).length});
+		console.log("here i am" + result);
+		if(result != "entering else")
+		{
+			res.render(path.join(__dirname+'/results.html'), {results : JSON.stringify(result), length : Object.keys(result).length, width : Object.keys(result[0]).length});
+		}
+		else
+		{
+			res.send("No records to show");
+		}
 	});	
 });
 
@@ -50,6 +58,12 @@ app.get('/get_results', function(req,res)
 	functions.insertRecord(mongoUri,DB_Name,Collection_Name,response);
 	res.send(JSON.stringify(response));
 });
+
+app.get('/delete/:name',function(req,res)
+{
+	functions.deleteRecord(mongoUri,DB_Name,Collection_Name,req.params.name);
+	res.send("record with first name "+req.params.name+" deleted");
+})
 
 app.listen(port);
 console.log("Server listening on "+ port);

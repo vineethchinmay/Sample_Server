@@ -6,6 +6,7 @@ module.exports =
 	getAllRecords : function(mongoUri,DB_Name,Collection_Name,callback)
 	{
 		console.log("came here");
+
 		MongoClient.connect(mongoUri,function(err,db)
 		{
 			if(err)
@@ -20,8 +21,17 @@ module.exports =
 			    	throw err;
 			    } 
 			    console.log("came till the end");
-			    console.log(result);
-			    callback(result);
+			    console.log(typeof Object.keys(result) + Object.keys(result).length);
+			    if(typeof Object.keys(result) !== 'undefined' && Object.keys(result).length > 0)
+			    {
+			    	console.log("entering here");
+			    	callback(result);
+			    }
+			    else
+			    {
+			    	console.log("entering else");
+			    	callback("entering else");
+			    }
 			});
 		});
 	},
@@ -33,6 +43,22 @@ module.exports =
 		  if (err) throw err;
 		  var dbo = db.db(DB_Name);
 		  var myquery = { first_name : null };
+		  dbo.collection(Collection_Name).deleteMany(myquery, function(err, obj) 
+		  {
+		    if (err) throw err;
+		    console.log(obj.result.n + " document(s) deleted");
+		    db.close();
+		  });
+		});
+	},
+
+	deleteRecord : function(mongoUri,DB_Name,Collection_Name,first_name)
+	{
+		MongoClient.connect(mongoUri, function(err, db) 
+		{
+		  if (err) throw err;
+		  var dbo = db.db(DB_Name);
+		  var myquery = { first_name : first_name };
 		  dbo.collection(Collection_Name).deleteMany(myquery, function(err, obj) 
 		  {
 		    if (err) throw err;
@@ -84,7 +110,7 @@ module.exports =
 		  			console.log("collection created")
 		  		});
 				console.log("database created")
-				db.close();
+				// db.close();
 			});
 		}
 		catch(err)
