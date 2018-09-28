@@ -7,7 +7,9 @@
 </head>
 <body>
 	<input type="button" value="Generate names table." onclick="Onload_func()">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript" async>
+
 		function Onload_func()
 		{
 			var length = <%- length -%>;
@@ -18,9 +20,11 @@
 			// console.log(length + " " + width);
 
 			var body = document.getElementsByTagName("body")[0];
+			$("#names").remove();
 
 			  // creates a <table> element and a <tbody> element
 			  var tbl = document.createElement("table");
+			  tbl.setAttribute("id","names");
 			  var tblBody = document.createElement("tbody");
 			 
 			  // creating all cells
