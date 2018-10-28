@@ -5,8 +5,6 @@ module.exports =
 {
 	getAllRecords : function(mongoUri,DB_Name,Collection_Name,callback)
 	{
-		console.log("came here");
-
 		MongoClient.connect(mongoUri,function(err,db)
 		{
 			if(err)
@@ -20,16 +18,12 @@ module.exports =
 			    {
 			    	throw err;
 			    } 
-			    console.log("came till the end");
-			    console.log(typeof Object.keys(result) + Object.keys(result).length);
 			    if(typeof Object.keys(result) !== 'undefined' && Object.keys(result).length > 0)
 			    {
-			    	console.log("entering here");
 			    	callback(result);
 			    }
 			    else
 			    {
-			    	console.log("entering else");
 			    	callback("entering else");
 			    }
 			});
@@ -84,7 +78,6 @@ module.exports =
 				{
 					console.log(err.message)
 				}
-				console.log("document inserted")
 				console.log(rest.insertedCount);
 			});
 		});
@@ -109,8 +102,6 @@ module.exports =
 		  			}
 		  			console.log("collection created")
 		  		});
-				console.log("database created")
-				// db.close();
 			});
 		}
 		catch(err)

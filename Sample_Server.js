@@ -19,7 +19,8 @@ var functions = require("./functions.js");
 
 // app definitions
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/public',express.static(__dirname + '/public'));
+app.use(express.static(__dirname));
 app.engine('html', require('ejs').renderFile);
 
 // database connection and collection creation
@@ -36,7 +37,6 @@ app.get('/musicians',function(req, res)
 {
 	functions.getAllRecords(mongoUri,DB_Name,Collection_Name, function(result)
 	{
-		console.log("here i am" + result);
 		if(result != "entering else")
 		{
 			res.render(path.join(__dirname+'/results.html'), {results : JSON.stringify(result), length : Object.keys(result).length, width : Object.keys(result[0]).length});
@@ -56,7 +56,12 @@ app.get('/get_results', function(req,res)
 		last_name : req.query.last_name
 	};
 	functions.insertRecord(mongoUri,DB_Name,Collection_Name,response);
-	res.send(JSON.stringify(response));
+	res.send("added the name "+req.query.first_name+" "+req.query.last_name);
+});
+
+app.get('/charts',function(req,res)
+{	
+	res.render(path.join(__dirname+'/charts.html'));
 });
 
 app.get('/delete/:name',function(req,res)
