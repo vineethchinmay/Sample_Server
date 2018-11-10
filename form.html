@@ -1,11 +1,110 @@
 <html>
    <body>
       
+
+	<script>
+	  window.fbAsyncInit = function() {
+	    FB.init({
+	      appId      : '469291693560198',
+	      cookie     : true,
+	      xfbml      : true,
+	      version    : 'v3.2'
+	    });
+	      
+	    FB.AppEvents.logPageView();   
+	      
+	  };
+
+	  (function(d, s, id){
+	     var js, fjs = d.getElementsByTagName(s)[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement(s); js.id = id;
+	     js.src = "https://connect.facebook.net/en_US/sdk.js";
+	     fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+	</script>
+
+	<script type="text/javascript">
+		function statusChangeCallback(response)
+		{
+			console.log(response)
+
+			FB.api('/2406971095985685?fields=access_token','get',function(response)
+			{
+				console.log("entered here")
+				console.log(response)
+				var temp_access = response.access_token
+				console.log(temp_access)
+				// FB.api('/2406971095985685/feed','post',
+				// {
+				// 	message : 'sample message post',
+				// 	accessToken : temp_access
+				// },function(response)
+				// {
+				// 	console.log(response)
+				// });
+			});
+
+			FB.ui({
+			  method: 'share',
+			  href:'www.twitter.com',
+			  hashtag: '#9by10',
+			  quote: 'hello people'
+			}, function(response){});
+
+			// FB.api('/me/accounts HTTP/1.1','get',function(response)
+			// {
+			// 	console.log(response)
+			// });
+
+			// FB.api('/2406971095985685/feed','post',
+			// {
+			// 	message : 'sample message post',
+			// 	accessToken : response.authResponse.accessToken
+			// },function(response)
+			// {
+			// 	console.log(response)
+			// });
+
+			if(response.status != "connected")
+			{
+				console.log("not logged in")
+				FB.login(function(response)
+					{
+						checkLoginState()
+					});
+			}
+			else
+			{
+				console.log("auth response is the following----------------------------")
+				console.log(response.authResponse.accessToken)
+
+				FB.api('/me', function(response) 
+				{
+					console.log("Welcome "+ response.name )
+					console.log(response)
+					
+				});
+			}
+		}
+
+		function checkLoginState() {
+		  FB.getLoginStatus(function(response) {
+		    statusChangeCallback(response);
+		  });
+		}
+	</script>
+
       <form action = "/get_results" method = "GET">
          First Name: <input type = "text" name = "first_name"> <br>
          Last Name: <input type = "text" name = "last_name"> <br>
          <input type = "submit" value = "Submit">
       </form>
+      <fb:login-button 
+	  scope="public_profile,email,manage_pages,publish_pages,publish_to_groups"
+	  onlogin="checkLoginState();">
+	</fb:login-button>
+
       
    </body>
 </html>
